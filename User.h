@@ -16,6 +16,7 @@ private:
 
 public:
 	User(string* n, string* un, string* p, string* c, string* co);
+	User(string s);
 	~User();
 	string GetFullDescription();
 

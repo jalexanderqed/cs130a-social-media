@@ -37,9 +37,13 @@ string* GetSafeString(string type){
 void addPost(User* u) {
   cout << "Enter text for post:\n";
   string* t = GetSafeString("post");
-  time_t* tim = new time_t();
-  time(tim);
-  u->GetWall()->AddPost(new WallPost(t, tim, 0));
+  
+  time_t now = time(NULL);
+  tm * ptm = localtime(&now);
+  char buffer[50];
+  strftime(buffer, 50, "%d-%m-%Y %I:%M:%S", ptm);
+  
+  u->GetWall()->AddPost(new WallPost(t, new string(buffer), 0));
 }
 
 void loggedIn(User* u) {

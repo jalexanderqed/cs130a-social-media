@@ -10,6 +10,7 @@ private:
 
 public:
 	UserNetwork();
+	UserNetwork(string in);
 	~UserNetwork();
 	bool AddUser(User* u);
 	User* RemoveUser(string userName);
