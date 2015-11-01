@@ -1,16 +1,8 @@
 
 ~@USER~@
-Name: j
+Name: jack
 Username: j
 Password: j
-City: j
-Country: j
+City: F
+Country: U
 Wall:
-
-Post:
-this is sparta
------
-
-Post:
-not athens
------

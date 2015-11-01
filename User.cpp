@@ -32,7 +32,7 @@ string User::GetFullDescription() {
 	str += "\nCity: ";
 	str += *city;
 	str += "\nCountry: ";
-	str += *userName;
+	str += *country;
 	str += "\nWall:\n";
 	str += wall->GetAllPosts();
 
