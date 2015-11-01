@@ -1,0 +1,16 @@
+
+~@USER~@
+Name: j
+Username: j
+Password: j
+City: j
+Country: j
+Wall:
+
+Post:
+this is sparta
+-----
+
+Post:
+not athens
+-----

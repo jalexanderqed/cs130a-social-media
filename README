@@ -1,0 +1,9 @@
+John Alexander
+CS130A
+Project part 1
+
+Run "make" to compile all code, then run "./Interface" to enter the social network interface. From there, instructions on commands are provided in the readout.
+
+"make clean" will remove all class and binary files
+
+Reading and writing to a text file has not been implemented yet because I have not figured out how to correctly tokenize the input. I will have this functionality for the next part of the project.
