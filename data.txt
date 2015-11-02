@@ -1,22 +1,45 @@
-Name: j
-Username: j
-Password: j
-City: j
-Country: j
+Name: Jack Alexander
+Username: ja
+Password: ja
+City: Fremont
+Country: USA
+Friends:
+Username: tc
+Pending requests:
 Wall:
 Rating: 0
-Time: 01-11-2015 03:26:42
+Time: 02-11-2015 06:38:57
+Is edited: false
 Post:
-this
+This is a wall post.
 -----
-Name: j
-Username: j
-Password: j
-City: j
-Country: j
-Wall:
 Rating: 0
-Time: 01-11-2015 03:26:42
+Time: 02-11-2015 06:39:03
+Is edited: false
 Post:
-this
+This is another wall post.
 -----
+Rating: 0
+Time: 02-11-2015 06:39:14
+Is edited: false
+Post:
+They can be deleted at will.
+-----
+Name: Jamy Alexander
+Username: jy
+Password: jy
+City: Berkeley
+Country: US
+Friends:
+Pending requests:
+Username: ja
+Wall:
+Name: Trevor Cohen
+Username: tc
+Password: tc
+City: Orange
+Country: US
+Friends:
+Username: ja
+Pending requests:
+Wall:
