@@ -15,6 +15,7 @@ public:
 	Wall(string* u);
 	~Wall();
 	WallPost* RemovePost(string contents);
+	WallPost* RemovePostByTime(string time);
 	string GetAllPosts();
 	bool ReadPosts(string posts);
 	void RemoveAllPosts();

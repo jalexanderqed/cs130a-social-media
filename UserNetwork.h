@@ -17,7 +17,9 @@ public:
 	User* RemoveUser(string userName);
 	User* GetUser(string userName);
 	string GetAllUsers();
-	LinkedListNavigator<string>* SearchUsers(string name)
+	LinkedListNavigator<string>* SearchUsers(string name);
+
+	int NumUsers() { return users->Length(); }
 };
 
 #endif

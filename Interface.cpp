@@ -5,6 +5,14 @@
 
 using namespace std;
 
+bool saveToFile(UserNetwork* network, string fileName) {
+	ofstream myfile;
+	myfile.open(fileName);
+	myfile << network->GetAllUsers();
+	myfile.close();
+	return true;
+}
+
 bool IsLegal(string str) {
 	return str != "";
 }
@@ -49,7 +57,6 @@ void SearchForUser(UserNetwork* n) {
 
 	LinkedListNavigator<string>* results = n->SearchUsers(*t);
 
-	
 	results->GoToHead();
 	if (results->GetCurrent() != NULL) {
 		cout << "Results:" << endl;
@@ -61,7 +68,6 @@ void SearchForUser(UserNetwork* n) {
 		cout << "No users found." << endl;
 	}
 
-
 	delete t;
 	delete results;
 }
@@ -69,9 +75,13 @@ void SearchForUser(UserNetwork* n) {
 void AddFriend(User* u, UserNetwork* n) {
 	cout << "Enter username of user to add: ";
 	User* target = n->GetUser(ReadString());
-	if (target != NULL) {
-		target->AddPending(new string(u->GetUserName()));
-		cout << "Sent request to user " << target->GetUserName() << endl;
+	if (target != NULL && target->GetName() != u->GetName()) {
+		if (target->AddPending(new string(u->GetUserName()))) {
+			cout << "Sent request to user " << target->GetUserName() << endl;
+		}
+		else {
+			cout << "Sorry, it looks like you're already friends." << endl;
+		}
 	}
 	else {
 		cout << "Sorry, I couldn't find that user." << endl;
@@ -88,14 +98,29 @@ void PrintPending(User* u) {
 			cout << "\nUsername: " << *(pending->GetCurrent());
 		} while (pending->Next());
 	}
+	cout << endl;
 }
 
-void AddFriend(User* u, UserNetwork* n) {
+void PrintFriends(User* u) {
+	cout << "\nMy friends:";
+	LinkedListNavigator<string>* friends = u->GetFriends();
+	friends->GoToHead();
+	if (friends->GetCurrent() != NULL) {
+		do {
+			cout << "\nUsername: " << *(friends->GetCurrent());
+		} while (friends->Next());
+	}
+	cout << endl;
+}
+
+void AcceptPending(User* u, UserNetwork* n) {
 	cout << "Enter username of user to add as a friend: ";
 	User* target = n->GetUser(ReadString());
-	if (target != NULL) {
-		target->AddPending(new string(u->GetUserName()));
-		cout << "Sent request to user " << target->GetUserName() << endl;
+	if (target != NULL && u->HasPending(target->GetUserName()) && !u->HasFriend(target->GetUserName())) {
+		target->AddFriend(new string(u->GetUserName()));
+		u->AddFriend(new string(target->GetUserName()));
+		u->RemovePending(target->GetUserName());
+		cout << "Successfully added friend " << target->GetUserName() << endl;
 	}
 	else {
 		cout << "Sorry, I couldn't find that user." << endl;
@@ -103,15 +128,56 @@ void AddFriend(User* u, UserNetwork* n) {
 	cout << endl;
 }
 
+void RemoveFriend(User* u, UserNetwork* n) {
+	cout << "Enter username of friend to remove: ";
+	User* target = n->GetUser(ReadString());
+	if (target != NULL && u->HasFriend(target->GetUserName())) {
+		u->RemoveFriend(target->GetUserName());
+		target->RemoveFriend(u->GetUserName());
+		cout << "Successfully removed friend " << target->GetUserName() << endl;
+	}
+	else {
+		cout << "Sorry, I couldn't find that user." << endl;
+	}
+	cout << endl;
+}
+
+bool DeleteProfile(User* u, UserNetwork* n) {
+	cout << "Are you sure you want to delete your profile permanently? (y/n)" << endl;
+	if (ReadString() == "y") {
+		cout << "Deleting profile." << endl;
+		User* rem = n->RemoveUser(u->GetUserName());
+		if (rem != NULL) delete rem;
+		return true;
+	}
+	return false;
+}
+
+void RemovePost(User* u) {
+	cout << "Enter time of post to remove, as printed with command 'p': ";
+	WallPost* target = u->GetWall()->RemovePostByTime(ReadString());
+	if (target != NULL) {
+		delete target;
+		cout << "Removed wall post." << endl;
+	}
+	else {
+		cout << "Sorry, I couldn't find that post." << endl;
+	}
+}
+
 void LoggedIn(User* u, UserNetwork* n) {
 	while (true) {
 		cout << "\nCommands:" << endl;
 		cout << "a: add post to my wall" << endl;
 		cout << "p: print my wall" << endl;
-		cout << "s: search for friends" << endl;
+		cout << "s: search for users" << endl;
 		cout << "f: send friend request" << endl;
-		cout << "pf: print my pending friend requests" << endl;
+		cout << "pp: print my pending friend requests" << endl;
+		cout << "pf: print my list of friends" << endl;
 		cout << "af: accept pending friend request" << endl;
+		cout << "rf: remove friend" << endl;
+		cout << "dm: delete my profile" << endl;
+		cout << "rp: remove a wall post" << endl;
 		cout << "q: logout" << endl;
 		cout << "\nCommand: ";
 
@@ -125,13 +191,24 @@ void LoggedIn(User* u, UserNetwork* n) {
 			AddFriend(u, n);
 		else if (command == "s")
 			SearchForUser(n);
-		else if (command == "pf")
+		else if (command == "pp")
 			PrintPending(u);
+		else if (command == "pf")
+			PrintFriends(u);
 		else if (command == "af")
 			AcceptPending(u, n);
+		else if (command == "rf")
+			RemoveFriend(u, n);
+		else if (command == "rp")
+			RemovePost(u);
+		else if (command == "dm") {
+			if (DeleteProfile(u, n)) break;
+		}
 		else if (command == "q")
 			break;
 	}
+
+	saveToFile(n, "data.txt");
 	cout << endl;
 }
 
@@ -212,14 +289,6 @@ void printUser(UserNetwork* network) {
 	cout << endl;
 }
 
-bool saveToFile(UserNetwork* network, string fileName) {
-	ofstream myfile;
-	myfile.open(fileName);
-	myfile << network->GetAllUsers();
-	myfile.close();
-	return true;
-}
-
 WallPost* WallPostFromString(string &in) {
 	string post;
 	string time;
@@ -298,12 +367,33 @@ User* UserFromString(string &in) {
 	country = in.substr(9, in.find('\n') - 9);
 	in = in.substr(in.find('\n') + 1);
 
-	if (in.find("Wall:") != 0) {
+	User* u = new User(new string(name), new string(userName), new string(password), new string(city), new string(country));
+
+	if (in.find("Friends:") != 0) {
+		delete u;
 		return NULL;
 	}
 	in = in.substr(in.find('\n') + 1);
+	while (in.find("Username: ") == 0) {
+		u->AddFriend(new string(in.substr(10, in.find('\n') - 10)));
+		in = in.substr(in.find('\n') + 1);
+	}
 
-	User* u = new User(new string(name), new string(userName), new string(password), new string(city), new string(country));
+	if (in.find("Pending requests:") != 0) {
+		delete u;
+		return NULL;
+	}
+	in = in.substr(in.find('\n') + 1);
+	while (in.find("Username: ") == 0) {
+		u->AddPending(new string(in.substr(10, in.find('\n') - 10)));
+		in = in.substr(in.find('\n') + 1);
+	}
+
+	if (in.find("Wall:") != 0) {
+		delete u;
+		return NULL;
+	}
+	in = in.substr(in.find('\n') + 1);
 
 	WallPost* wp;
 	while ((wp = WallPostFromString(in)) != NULL) {
@@ -340,6 +430,9 @@ UserNetwork* ReadFromFile(string fileName) {
 
 int RunInterface() {
 	UserNetwork* network = ReadFromFile("data.txt");
+	if (network->NumUsers() == 0) {
+		cout << "Could not read any users from file." << endl;
+	}
 
 	while (true) {
 		cout << "\nCommands:" << endl;

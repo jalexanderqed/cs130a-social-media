@@ -3,7 +3,24 @@ CS130A
 Project part 1
 
 Run "make" to compile all code, then run "./Interface" to enter the social network interface. From there, instructions on commands are provided in the readout.
+Run "make clean" to remove all object files.
+Persistence data is stored in data.txt
 
-"make clean" will remove all class and binary files
 
-Reading and writing to a text file has not been implemented yet because I have not figured out how to correctly tokenize the input. I will have this functionality for the next part of the project.
+Results of list performance tests (results obtained using "clock()" function):
+
+ArrayList:
+n=2000: 0 ms
+n=4000: 15 ms
+n=6000: 15 ms
+n=8000: 46 ms
+n=10000: 78 ms
+
+LinkedList:
+n=2000: 0 ms
+n=4000: 31 ms
+n=6000: 78 ms
+n=8000: 125 ms
+n=10000: 203 ms
+
+Clearly the implementation of List using an array is faster on insert.

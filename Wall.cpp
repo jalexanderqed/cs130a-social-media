@@ -26,6 +26,19 @@ WallPost* Wall::RemovePost(string contents) {
 	return NULL;
 }
 
+WallPost* Wall::RemovePostByTime(string time) {
+	WallPost* c;
+	list->GoToHead();
+	if ((c = list->GetCurrent()) != NULL) {
+		do {
+			if (*(c->GetTime()) == time) {
+				return list->RemoveCurrent()->GetValue();
+			}
+		} while (list->Next());
+	}
+	return NULL;
+}
+
 string Wall::GetAllPosts() {
 	WallPost* c;
 	string allPosts = "";

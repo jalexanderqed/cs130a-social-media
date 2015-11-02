@@ -22,8 +22,10 @@ public:
 	string GetFullDescription();
 	bool AddFriend(std::string* name);
 	bool AddPending(std::string* name);
-	bool RemoveFriend(std::string* name);
-	bool RemovePending(std::string* name);
+	bool RemoveFriend(std::string name);
+	bool RemovePending(std::string name);
+	bool HasFriend(std::string name);
+	bool HasPending(std::string name);
 
 	inline string GetUserName() { return *userName; }
 	inline string GetName() { return *name; }

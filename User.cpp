@@ -63,12 +63,7 @@ string User::GetFullDescription() {
 bool User::AddFriend(std::string* name) {
 	friends->GoToHead();
 
-	if (friends->GetCurrent() != NULL) {
-		do {
-			if (*(friends->GetCurrent()) == *name) return false;
-		} while (friends->Next());
-	}
-	else return false;
+	if (HasFriend(*name)) return false;
 
 	friends->AddTail(name);
 	return true;
@@ -77,23 +72,18 @@ bool User::AddFriend(std::string* name) {
 bool User::AddPending(std::string* name) {
 	pending->GoToHead();
 
-	if (pending->GetCurrent() != NULL) {
-		do {
-			if (*(pending->GetCurrent()) == *name) return false;
-		} while (pending->Next());
-	}
-	else return false;
+	if (HasPending(*name)) return false;
 
 	pending->AddTail(name);
 	return true;
 }
 
-bool User::RemoveFriend(std::string* name) {
+bool User::RemoveFriend(std::string name) {
 	friends->GoToHead();
 
 	if (friends->GetCurrent() != NULL) {
 		do {
-			if (*(friends->GetCurrent()) == *name) {
+			if (*(friends->GetCurrent()) == name) {
 				delete friends->RemoveCurrent();
 				return true;
 			}
@@ -103,12 +93,12 @@ bool User::RemoveFriend(std::string* name) {
 	return false;
 }
 
-bool User::RemovePending(std::string* name) {
+bool User::RemovePending(std::string name) {
 	pending->GoToHead();
 
 	if (pending->GetCurrent() != NULL) {
 		do {
-			if (*(pending->GetCurrent()) == *name) {
+			if (*(pending->GetCurrent()) == name) {
 				delete pending->RemoveCurrent();
 				return true;
 			}
@@ -118,12 +108,12 @@ bool User::RemovePending(std::string* name) {
 	return false;
 }
 
-bool User::HasFriend(std::string* name) {
+bool User::HasFriend(std::string name) {
 	friends->GoToHead();
 
 	if (friends->GetCurrent() != NULL) {
 		do {
-			if (*(friends->GetCurrent()) == *name) {
+			if (*(friends->GetCurrent()) == name) {
 				return true;
 			}
 		} while (friends->Next());
@@ -132,12 +122,12 @@ bool User::HasFriend(std::string* name) {
 	return false;
 }
 
-bool User::HasPending(std::string* name) {
+bool User::HasPending(std::string name) {
 	pending->GoToHead();
 
 	if (pending->GetCurrent() != NULL) {
 		do {
-			if (*(pending->GetCurrent()) == *name) {
+			if (*(pending->GetCurrent()) == name) {
 				return true;
 			}
 		} while (pending->Next());

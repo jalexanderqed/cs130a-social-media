@@ -29,6 +29,14 @@ User* UserNetwork::RemoveUser(string userName) {
 	users->GoToHead();
 	if ((users->GetCurrent()) != NULL) {
 		do {
+			users->GetCurrent()->RemoveFriend(userName);
+			users->GetCurrent()->RemovePending(userName);
+		} while (users->Next());
+	}
+
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
 			if (users->GetCurrent()->GetUserName() == userName) {
 				return users->RemoveCurrent()->GetValue();
 			}
@@ -41,7 +49,6 @@ User* UserNetwork::GetUser(string userName) {
 	users->GoToHead();
 	if ((users->GetCurrent()) != NULL) {
 		do {
-			cout << users->GetCurrent()->GetUserName() << endl;
 			if (users->GetCurrent()->GetUserName() == userName) {
 				return users->GetCurrent();
 			}
@@ -73,6 +80,8 @@ LinkedListNavigator<string>* UserNetwork::SearchUsers(string name) {
 			}
 		} while (users->Next());
 	}
+
+	return ret;
 }
 
 #endif
