@@ -4,66 +4,75 @@
 #include "UserNetwork.h"
 
 UserNetwork::UserNetwork() {
-  users = new LinkedListNavigator<User>();
-}
-
-UserNetwork::UserNetwork(string in){
-  
+	users = new LinkedListNavigator<User>();
 }
 
 UserNetwork::~UserNetwork() {
-  users->DeleteList();
-  delete users;
+	users->DeleteList();
+	delete users;
 }
 
 bool UserNetwork::AddUser(User* u) {
-  User* c;
-  if ((c = users->GetCurrent()) != NULL) {
-    do {
-      if (c->GetUserName() == u->GetUserName()) {
-	return false;
-      }
-    } while (users->Next());
-  }
-  users->AddTail(u);
-  return true;
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
+			if (users->GetCurrent()->GetUserName() == u->GetUserName()) {
+				return false;
+			}
+		} while (users->Next());
+	}
+	users->AddTail(u);
+	return true;
 }
 
 User* UserNetwork::RemoveUser(string userName) {
-  User* c;
-  if ((c = users->GetCurrent()) != NULL) {
-    do {
-      if (c->GetUserName() == userName) {
-	return users->RemoveCurrent()->GetValue();
-      }
-    } while (users->Next());
-  }
-  return NULL;
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
+			if (users->GetCurrent()->GetUserName() == userName) {
+				return users->RemoveCurrent()->GetValue();
+			}
+		} while (users->Next());
+	}
+	return NULL;
 }
 
 User* UserNetwork::GetUser(string userName) {
-  User* c;
-  if ((c = users->GetCurrent()) != NULL) {
-    do {
-      if (c->GetUserName() == userName) {
-	return c;
-      }
-    } while (users->Next());
-  }
-  return NULL;
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
+			cout << users->GetCurrent()->GetUserName() << endl;
+			if (users->GetCurrent()->GetUserName() == userName) {
+				return users->GetCurrent();
+			}
+		} while (users->Next());
+	}
+	return NULL;
 }
 
 string UserNetwork::GetAllUsers() {
-  User* c;
-  string allUsers = "";
-  users->GoToHead();
-  if ((c = users->GetCurrent()) != NULL) {
-    do {     
-      allUsers += c->GetFullDescription();
-    } while (users->Next());
-  }
+	string allUsers = "";
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
+			allUsers += users->GetCurrent()->GetFullDescription();
+		} while (users->Next());
+	}
 
-  return allUsers;
+	return allUsers;
+}
+
+LinkedListNavigator<string>* UserNetwork::SearchUsers(string name) {
+	string searchLower = LowerString(name);
+	LinkedListNavigator<string>* ret = new LinkedListNavigator<string>();
+	users->GoToHead();
+	if ((users->GetCurrent()) != NULL) {
+		do {
+			if (LowerString(users->GetCurrent()->GetUserName()).find(searchLower) != string::npos) {
+				ret->AddTail(new string(users->GetCurrent()->GetUserName()));
+			}
+		} while (users->Next());
+	}
 }
 
 #endif

@@ -3,6 +3,8 @@
 
 #include "User.h"
 #include "LinkedListNavigator.h"
+#include <string>
+#include "Util.h"
 
 class UserNetwork {
 private:
@@ -10,12 +12,12 @@ private:
 
 public:
 	UserNetwork();
-	UserNetwork(string in);
 	~UserNetwork();
 	bool AddUser(User* u);
 	User* RemoveUser(string userName);
 	User* GetUser(string userName);
 	string GetAllUsers();
+	LinkedListNavigator<string>* SearchUsers(string name)
 };
 
 #endif

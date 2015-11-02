@@ -8,10 +8,18 @@ WallPost::WallPost(std::string* p, std::string* t, int r) {
   rating = r;
 }
 
+WallPost::WallPost(std::string* p, std::string* t, int r, bool e) {
+	post = p;
+	time = t;
+	rating = r;
+	edited = e;
+}
+
 std::string WallPost::GetFullPost() {
   std::ostringstream fullPost;
   fullPost << "Rating: " << rating;
   fullPost << "\nTime: " << *time;
+  fullPost << "\nIs edited: " << (edited ? "true" : "false");
   fullPost << "\nPost:\n";
   fullPost << *post;
   return fullPost.str();
