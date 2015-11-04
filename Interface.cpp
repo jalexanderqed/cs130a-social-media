@@ -69,6 +69,7 @@ void SearchForUser(UserNetwork* n) {
   }
 
   delete t;
+  results->DeleteList();
   delete results;
 }
 

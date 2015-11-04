@@ -21,6 +21,9 @@ User::~User() {
 	delete city;
 	delete country;
 	delete wall;
+
+	friends->DeleteList();
+	pending->DeleteList();
 	delete friends;
 	delete pending;
 }
