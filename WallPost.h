@@ -15,13 +15,14 @@ private:
 	std::string* time;
 	int rating;
 	bool edited = false;
+	std::string* poster;
 
 public:
 	// Each wall post is initialized with the text it contains and the time at which
 	// it was made. The text of the post can be changed, but the time it was made
 	// should not be (setter method is provided because it is required by the project spec).
-	WallPost(std::string* p, std::string* t, int r);
-	WallPost(std::string* p, std::string* t, int r, bool e);
+	WallPost(std::string* p, std::string* t, std::string* po, int r);
+	WallPost(std::string* p, std::string* t, std::string* po, int r, bool e);
 	// Returns a formatted version of the post with its time and text.
 	std::string GetFullPost();
 	~WallPost();

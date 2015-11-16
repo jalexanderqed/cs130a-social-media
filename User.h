@@ -4,6 +4,7 @@
 #include <string>
 #include <ctime>
 #include "Wall.h"
+#include "HashTable.h"
 
 class User {
 private:

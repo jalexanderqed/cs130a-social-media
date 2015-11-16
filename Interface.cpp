@@ -48,7 +48,7 @@ void AddPost(User* u) {
   char buffer[50];
   strftime(buffer, 50, "%d-%m-%Y %I:%M:%S", ptm);
 
-  u->GetWall()->AddPost(new WallPost(t, new string(buffer), 0));
+  u->GetWall()->AddPost(new WallPost(t, new string(buffer), new string(u->GetUserName()), 0));
 }
 
 void SearchForUser(UserNetwork* n) {
@@ -292,6 +292,7 @@ void printUser(UserNetwork* network) {
 
 WallPost* WallPostFromString(string &in) {
   string post;
+  string poster;
   string time;
   int rating;
   bool edited;
@@ -300,6 +301,12 @@ WallPost* WallPostFromString(string &in) {
     return NULL;
   }
   rating = atoi(in.substr(8, in.find('\n') - 8).c_str());
+  in = in.substr(in.find('\n') + 1);
+
+  if (in.find("Posted by: ") != 0) {
+	  return NULL;
+  }
+  poster = in.substr(11, in.find('\n') - 11).c_str();
   in = in.substr(in.find('\n') + 1);
 
   if (in.find("Time: ") != 0) {
@@ -328,7 +335,7 @@ WallPost* WallPostFromString(string &in) {
   }
   in = in.substr(in.find('\n') + 1);
 
-  return new WallPost(new string(post), new string(time), rating, edited);
+  return new WallPost(new string(post), new string(time), new string(poster), rating, edited);
 }
 
 User* UserFromString(string &in) {
