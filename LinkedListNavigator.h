@@ -204,6 +204,7 @@ class LinkedListNavigator {
       return true;
     }
     else {
+      current = NULL;
       return false;
     }
   }
@@ -217,6 +218,7 @@ class LinkedListNavigator {
       return true;
     }
     else {
+      current = NULL;
       return false;
     }
   }

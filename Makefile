@@ -1,6 +1,6 @@
 CXX=g++
 CXXFLAGS=-g -std=c++11
-BIN=Interface
+BIN=SocialNetwork
 
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:%.cpp=%.o)
