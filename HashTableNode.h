@@ -49,11 +49,14 @@ class HashTableNode {
   }
 
   inline size_t GetHash() {
-    size_t hash = 1;
-    for (int i = 0; i < key->length(); i++) {
-      hash = hash ^ HashInt((*key)[i] ^ HashInt(i * 7591));
+    size_t seed = 131;
+    size_t hash = 0;
+
+    for(size_t i = 0; i < key->length(); i++){
+      hash = (hash * seed) + (*key)[i];
     }
-    return hash;
+
+    return (hash & 0x7FFFFFFF);
   }
 };
 

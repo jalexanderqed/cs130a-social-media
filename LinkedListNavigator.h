@@ -234,6 +234,10 @@ class LinkedListNavigator {
       return NULL;
   }
 
+  inline DLinkedListNode<T>* GetCurrentNode() {
+    return current;
+  }
+
   inline bool Contains(T val){
     DLinkedListNode<T>* current = list->GetHead();
 

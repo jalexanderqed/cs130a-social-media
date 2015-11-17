@@ -18,7 +18,7 @@ class HashTable {
  public:
   HashTable(int c) {
     map = new LinkedListNavigator<HashTableNode<T>>*[c];
-    capacity = c;
+    capacity = (c < 10) ? 10 : c;
     size = 0;
 
     for (int i = 0; i < capacity; i++) {
@@ -28,7 +28,7 @@ class HashTable {
 
   ~HashTable() {
     if(map != NULL){
-      for (int i = 0; i < size; i++) {
+      for (int i = 0; i < capacity; i++) {
 	if(map[i] != NULL){
 	  map[i]->DeleteList();
 	  delete map[i];
@@ -51,31 +51,41 @@ class HashTable {
 
   void Rehash(){
     size_t nc = (capacity + 1) * 2 + 1;
-    
+    nc = (nc < 10) ? 10 : nc;
     HashTable<T>* newMap = new HashTable<T>(nc);
 
-    StartIterator();
-
-    HashTableNode<T>* n;
-    while((n = NextIterator()) != NULL){
-      newMap->Add(n->GetKey(), n->GetValue());
-      n->SetValue(NULL);
-      delete n;
+    int pos = 0;
+    map[pos]->GoToHead();
+    while(pos < capacity && map[pos]->GetCurrent() == NULL){
+      pos++;
+      if(pos < capacity) map[pos]->GoToHead();
     }
 
-    for (int i = 0; i < size; i++) {
+    while(pos < capacity){
+      while(pos < capacity && map[pos]->GetCurrent() == NULL){
+	pos++;
+	if(pos < capacity) map[pos]->GoToHead();
+      }
+      if(pos < capacity){
+	do{
+	  HashTableNode<T>* n = map[pos]->GetCurrent();
+	  newMap->Add(n);
+	  map[pos]->GetCurrentNode()->SetValue(NULL);
+	} while (map[pos]->Next());
+      }
+    }
+    for(int i = 0; i < capacity; i++) {
       map[i]->DeleteList();
       delete map[i];
       map[i] = NULL;
     }
-
+    
     delete[] map;
 
     capacity = nc;
     map = newMap->map;
     newMap->map = NULL;
     delete newMap;
-    PrintDebug();
   }
 
   HashTableNode<T>* NextIterator(){
@@ -114,23 +124,25 @@ class HashTable {
     map[0]->GoToHead();
   }
 
-  bool Add(string key, T* value) {
-    HashTableNode<T>* n = new HashTableNode<T>(value, key);
-    uint32_t index = n->GetHash();
-
-    size_t location = index % capacity;
+  bool Add(HashTableNode<T>* n){
+    if(size + 1 > FILL_FACTOR * capacity) Rehash();
+    size_t location = n->GetHash() % capacity;
     LinkedListNavigator<HashTableNode<T>>* l = map[location];
 
     l->GoToHead();
     if (l->GetCurrent() != NULL) {
       do {
-	if (l->GetCurrent()->GetKey() == key) return false;
+	if (l->GetCurrent()->GetKey() == n->GetKey()) return false;
       } while (l->Next());
     }
     l->AddHead(n);
     size++;
-    if(size > FILL_FACTOR * capacity) Rehash();
     return true;
+  }
+
+  bool Add(string key, T* value) {
+    HashTableNode<T>* n = new HashTableNode<T>(value, key);
+    Add(n);
   }
 
   T* Get(string key) {

@@ -17,14 +17,16 @@ inline char* GetRandString(int length){
 }
 
 int main(int argc, char** argv) {
-  int testSize = 100;
+  int testSize = 1000;
   HashTable<string>* h = new HashTable<string>(10);
   string** stored = new string*[testSize];
   srand((int)time(NULL));
 
   for(int i = 0; i < testSize; i++){
     stored[i] = NULL;
-    string* str = new string(GetRandString(8));
+    char* cstr = GetRandString(8);
+    string* str = new string(cstr);
+    delete[] cstr;
     if(h->Add(*str, str)){
       stored[i] = str;
     }
@@ -34,7 +36,6 @@ int main(int argc, char** argv) {
   h->StartIterator();
   HashTableNode<string>* n;
   while((n = h->NextIterator()) != NULL){
-    cout << *(n->GetValue()) << endl;
     count++;
   }
   cout << "Count: " << count << endl;
@@ -45,6 +46,9 @@ int main(int argc, char** argv) {
 	cout << "Could not remove " << *stored[i] << endl;
     }
   }
+
+  delete h;
+  delete[] stored;
 
   return 0;
 
