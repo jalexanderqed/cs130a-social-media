@@ -14,15 +14,14 @@ private:
 public:
 	Wall(string* u);
 	~Wall();
-	WallPost* RemovePost(string contents);
 	WallPost* RemovePostByTime(string time);
 	string GetAllPosts();
 	bool ReadPosts(string posts);
 	void RemoveAllPosts();
+	bool AddPost(WallPost* wp);
 
 	inline string* GetUser() { return user; }
 	inline void ChangeUser(string* u) { user = u; }
-	inline void AddPost(WallPost* wp) { list->AddTail(wp); }
 };
 
 #endif
