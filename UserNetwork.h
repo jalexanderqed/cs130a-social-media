@@ -8,7 +8,7 @@
 
 class UserNetwork {
 private:
-	LinkedListNavigator<User>* users;
+	HashTable<User>* users;
 
 public:
 	UserNetwork();
@@ -19,7 +19,7 @@ public:
 	string GetAllUsers();
 	LinkedListNavigator<string>* SearchUsers(string name);
 
-	int NumUsers() { return users->Length(); }
+	int NumUsers() { return users->Size(); }
 };
 
 #endif

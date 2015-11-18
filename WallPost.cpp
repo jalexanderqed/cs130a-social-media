@@ -21,22 +21,23 @@ WallPost::WallPost(std::string* p, std::string* t, std::string* po, int r, bool 
 
 std::string WallPost::GetFullPost() {
   std::ostringstream fullPost;
-  fullPost << "Rating: " << rating;
+  fullPost << "\nRating: " << rating;
   fullPost << "\nPosted by: " << *poster;
   fullPost << "\nTime: " << *time;
   fullPost << "\nIs edited: " << (edited ? "true" : "false");
-  fullPost << "\nPost:\n";
+  fullPost << "\nPost:";
   fullPost << *post;
-  fullPost << "\nResponses:\n";
+  fullPost << "\nResponses:";
 
   WallPost* c;
   responses->GoToHead();
   if ((c = responses->GetCurrent()) != NULL) {
     do {
       fullPost << responses->GetCurrent()->GetFullPost();
-      fullPost << "\n-----\n";
-    } while (list->Next());
+      fullPost << "\n-----";
+    } while (responses->Next());
   }
+  fullPost << "\n-----\n";
   
   return fullPost.str();
 }

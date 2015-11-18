@@ -8,31 +8,36 @@ Username: tc
 Pending requests:
 Wall:
 Rating: 0
+Posted by: ja
 Time: 02-11-2015 06:38:57
 Is edited: false
 Post:
 This is a wall post.
+Responses:
 -----
 Rating: 0
+Posted by: ja
 Time: 02-11-2015 06:39:03
 Is edited: false
 Post:
 This is another wall post.
+Responses:
 -----
 Rating: 0
+Posted by: ja
 Time: 02-11-2015 06:39:14
 Is edited: false
 Post:
 They can be deleted at will.
+Responses:
 -----
-Name: Jamy Alexander
-Username: jy
-Password: jy
-City: Berkeley
-Country: US
+Name: Avik Mondal
+Username: kiva
+Password: kiva
+City: San Jose
+Country: CA
 Friends:
 Pending requests:
-Username: ja
 Wall:
 Name: Trevor Cohen
 Username: tc
@@ -42,4 +47,13 @@ Country: US
 Friends:
 Username: ja
 Pending requests:
+Wall:
+Name: Jamy Alexander
+Username: jy
+Password: jy
+City: Berkeley
+Country: US
+Friends:
+Pending requests:
+Username: ja
 Wall:

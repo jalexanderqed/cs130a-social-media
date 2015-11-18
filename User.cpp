@@ -10,7 +10,7 @@ User::User(string* n, string* un, string* p, string* c, string* co) {
 	city = c;
 	country = co;
 	wall = new Wall(un);
-	friends = new LinkedListNavigator<string>();
+	friends = new HashTable<string>(51);
 	pending = new LinkedListNavigator<string>();
 }
 
@@ -22,7 +22,7 @@ User::~User() {
 	delete country;
 	delete wall;
 
-	friends->DeleteList();
+	delete friends;
 	pending->DeleteList();
 	delete friends;
 	delete pending;
@@ -42,11 +42,10 @@ string User::GetFullDescription() {
 	str << *country;
 
 	str << "\nFriends:";
-	friends->GoToHead();
-	if (friends->GetCurrent() != NULL) {
-		do {
-			str << "\nUsername: " << *(friends->GetCurrent());
-		} while (friends->Next());
+	friends->StartIterator();
+	string* u;
+	while ((u = friends->NextIterator()) != NULL) {
+		str << "\nUsername: " << *u;
 	}
 
 	str << "\nPending requests:";
@@ -64,12 +63,7 @@ string User::GetFullDescription() {
 }
 
 bool User::AddFriend(std::string* name) {
-	friends->GoToHead();
-
-	if (HasFriend(*name)) return false;
-
-	friends->AddTail(name);
-	return true;
+	return friends->Add(*name, name);
 }
 
 bool User::AddPending(std::string* name) {
@@ -82,18 +76,7 @@ bool User::AddPending(std::string* name) {
 }
 
 bool User::RemoveFriend(std::string name) {
-	friends->GoToHead();
-
-	if (friends->GetCurrent() != NULL) {
-		do {
-			if (*(friends->GetCurrent()) == name) {
-				delete friends->RemoveCurrent();
-				return true;
-			}
-		} while (friends->Next());
-	}
-
-	return false;
+	return friends->Remove(name) != NULL;
 }
 
 bool User::RemovePending(std::string name) {
@@ -112,17 +95,7 @@ bool User::RemovePending(std::string name) {
 }
 
 bool User::HasFriend(std::string name) {
-	friends->GoToHead();
-
-	if (friends->GetCurrent() != NULL) {
-		do {
-			if (*(friends->GetCurrent()) == name) {
-				return true;
-			}
-		} while (friends->Next());
-	}
-
-	return false;
+	return friends->Get(name) != NULL;
 }
 
 bool User::HasPending(std::string name) {

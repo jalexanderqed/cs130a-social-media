@@ -30,7 +30,7 @@ WallPost* Wall::RemovePostByTime(string time) {
   return NULL;
 }
 
-bool AddPost(WallPost* wp){
+bool Wall::AddPost(WallPost* wp){
   WallPost* c;
   list->GoToHead();
   if ((c = list->GetCurrent()) != NULL) {
@@ -52,7 +52,6 @@ string Wall::GetAllPosts() {
   if ((c = list->GetCurrent()) != NULL) {
     do {
       allPosts += list->GetCurrent()->GetFullPost();
-      allPosts += "\n-----\n";
     } while (list->Next());
   }
 

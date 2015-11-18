@@ -14,7 +14,7 @@ private:
 	string* password;
 	string* city;
 	string* country;
-	LinkedListNavigator<string>* friends;
+	HashTable<string>* friends;
 	LinkedListNavigator<string>* pending;
 
 public:
@@ -34,7 +34,7 @@ public:
 	inline string GetCity() { return *city; }
 	inline string GetCountry() { return *country; }
 	inline Wall* GetWall() { return wall; }
-	inline LinkedListNavigator<string>* GetFriends(){ return friends; }
+	inline HashTable<string>* GetFriends(){ return friends; }
 	inline LinkedListNavigator<string>* GetPending(){ return pending; }
 };
 

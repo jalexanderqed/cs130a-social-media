@@ -104,12 +104,11 @@ void PrintPending(User* u) {
 
 void PrintFriends(User* u) {
   cout << "\nMy friends:";
-  LinkedListNavigator<string>* friends = u->GetFriends();
-  friends->GoToHead();
-  if (friends->GetCurrent() != NULL) {
-    do {
-      cout << "\nUsername: " << *(friends->GetCurrent());
-    } while (friends->Next());
+  HashTable<string>* friends = u->GetFriends();
+  friends->StartIterator();
+  string* name;
+  while ((name = friends->NextIterator()) != NULL) {
+	  cout << "\nUsername: " << *(name);
   }
   cout << endl;
 }
@@ -330,12 +329,24 @@ WallPost* WallPostFromString(string &in) {
   post = in.substr(0, in.find('\n'));
   in = in.substr(in.find('\n') + 1);
 
-  if (in.find("-----") != 0) {
-    return NULL;
+  WallPost* w = new WallPost(new string(post), new string(time), new string(poster), rating, edited);
+
+  if (in.find("Responses:") != 0) {
+	  return NULL;
   }
   in = in.substr(in.find('\n') + 1);
 
-  return new WallPost(new string(post), new string(time), new string(poster), rating, edited);
+  WallPost* wp;
+  while ((wp = WallPostFromString(in)) != NULL) {
+	  w->AddResponse(wp);
+  }
+
+  if (in.find("-----") != 0) {
+	  return NULL;
+  }
+  in = in.substr(in.find('\n') + 1);
+
+  return w;
 }
 
 User* UserFromString(string &in) {
