@@ -56,7 +56,7 @@ string User::GetFullDescription() {
 		} while (pending->Next());
 	}
 
-	str << "\nWall:\n";
+	str << "\nWall:";
 	str << wall->GetAllPosts();
 
 	return str.str();

@@ -25,7 +25,7 @@ std::string WallPost::GetFullPost() {
   fullPost << "\nPosted by: " << *poster;
   fullPost << "\nTime: " << *time;
   fullPost << "\nIs edited: " << (edited ? "true" : "false");
-  fullPost << "\nPost:";
+  fullPost << "\nPost:\n";
   fullPost << *post;
   fullPost << "\nResponses:";
 
@@ -37,7 +37,7 @@ std::string WallPost::GetFullPost() {
       fullPost << "\n-----";
     } while (responses->Next());
   }
-  fullPost << "\n-----\n";
+  fullPost << "\n-----";
   
   return fullPost.str();
 }

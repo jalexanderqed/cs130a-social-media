@@ -47,15 +47,16 @@ bool Wall::AddPost(WallPost* wp){
 
 string Wall::GetAllPosts() {
   WallPost* c;
-  string allPosts = "";
+  ostringstream allPosts;
   list->GoToHead();
   if ((c = list->GetCurrent()) != NULL) {
     do {
-      allPosts += list->GetCurrent()->GetFullPost();
+      allPosts << list->GetCurrent()->GetFullPost();
     } while (list->Next());
   }
+  allPosts << '\n';
 
-  return allPosts;
+  return allPosts.str();
 }
 
 void Wall::RemoveAllPosts() {
