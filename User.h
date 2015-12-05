@@ -5,6 +5,28 @@
 #include <ctime>
 #include "Wall.h"
 #include "HashTable.h"
+#include "UserNetwork.h"
+
+class User;
+class UserNetwork;
+
+struct UserAndPath {
+public:
+	User* user;
+	LinkedListNavigator<string>* path;
+
+	UserAndPath(User* u) {
+		user = u;
+		path = new LinkedListNavigator<string>();
+	}
+
+	~UserAndPath() {
+		if (path != NULL) {
+			path->DeleteList();
+			delete path;
+		}
+	}
+};
 
 class User {
 private:
@@ -27,6 +49,7 @@ public:
 	bool RemovePending(std::string name);
 	bool HasFriend(std::string name);
 	bool HasPending(std::string name);
+	void Visit(LinkedListNavigator<User>* visitQueue, HashTable<UserAndPath>* visited, UserNetwork* network);
 
 	inline string GetUserName() { return *userName; }
 	inline string GetName() { return *name; }

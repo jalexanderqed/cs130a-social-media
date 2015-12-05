@@ -1,26 +1,15 @@
 John Alexander
 CS130A
-Project part 1
+Project part 3
 
-Run "make" to compile all code, then run "./Interface" to enter the social network interface. From there, instructions on commands are provided in the readout.
+Run "make" to compile all code, then run "./SocialNetwork" to enter the social network interface. From there, instructions on commands are provided in the readout.
 Run "make clean" to remove all object files.
 Persistence data is stored in data.txt
 
+IMPORTANT: Reading 10,000 users in from the file is extremely time consuming and NOT recommended. The 10,000 users will by generated automatically at startup. This generation can been turned on and off by commenting out "GenerateRandom(network);" on line 605 of Interface.cpp.
 
-Results of list performance tests (results obtained using "clock()" function):
+Path finding between users is implemented using breadth-first search in the function "FindPath" of UserNetwork and "Visit" in User. These use a HashTable implementation that can be found in HashTable.h and HashTableNode.h. The function used in this table is taken from "The C Programming Language" by Kernighan and Ritchie on the recommendation of Neeraj.
 
-ArrayList:
-n=2000: 0 ms
-n=4000: 15 ms
-n=6000: 15 ms
-n=8000: 46 ms
-n=10000: 78 ms
+Example data is currently stored in data.txt, with a copy in example_data.txt. The program is currently set not to generate 10,000 users (see above on instructions for doing this).
 
-LinkedList:
-n=2000: 0 ms
-n=4000: 31 ms
-n=6000: 78 ms
-n=8000: 125 ms
-n=10000: 203 ms
-
-Clearly the implementation of List using an array is faster on insert.
+I did not have time to implement 3-deep friend finding, but as you can see, I have all the tools necessary to do so. I just got rather time-crunched at the end.

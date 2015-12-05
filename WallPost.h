@@ -33,6 +33,7 @@ class WallPost {
 
   inline std::string GetText() { return *post; }
   inline std::string* GetTime() { return time; }
+  inline std::string GetPoster() { return *poster; }
   inline bool IsEdited() { return edited; }
 
   // SetText will only be called if the post is changed after it is initialized,

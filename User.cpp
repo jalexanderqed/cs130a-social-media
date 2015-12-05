@@ -24,7 +24,6 @@ User::~User() {
 
 	delete friends;
 	pending->DeleteList();
-	delete friends;
 	delete pending;
 }
 
@@ -110,6 +109,32 @@ bool User::HasPending(std::string name) {
 	}
 
 	return false;
+}
+
+void User::Visit(LinkedListNavigator<User>* visitQueue, HashTable<UserAndPath>* visited, UserNetwork* network) {
+	UserAndPath* me = visited->Get(GetUserName());
+
+	LinkedListNavigator<string>* pathToMe = me->path;
+	
+	friends->StartIterator();
+	string* f;
+	while ((f = friends->NextIterator()) != NULL) {
+		if (visited->Get(*f) == NULL) {
+			User* friendUser = network->GetUser(*f);
+			UserAndPath* friendAndPath = new UserAndPath(friendUser);
+			LinkedListNavigator<string>* pathForFriend = friendAndPath->path;
+			pathToMe->GoToTail();
+			if (pathToMe->GetCurrent() != NULL) {
+				do {
+					pathForFriend->AddHead(new string(*(pathToMe->GetCurrent())));
+				} while (pathToMe->Prev());
+			}
+			pathForFriend->AddHead(new string(GetUserName()));
+
+			visited->Add(*f, friendAndPath);
+			visitQueue->AddHead(friendUser);
+		}
+	}
 }
 
 #endif

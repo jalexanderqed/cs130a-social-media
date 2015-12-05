@@ -34,7 +34,6 @@ std::string WallPost::GetFullPost() {
   if ((c = responses->GetCurrent()) != NULL) {
     do {
       fullPost << responses->GetCurrent()->GetFullPost();
-      fullPost << "\n-----";
     } while (responses->Next());
   }
   fullPost << "\n-----";
@@ -55,7 +54,7 @@ bool WallPost::AddResponse(WallPost* wp){
   responses->GoToHead();
   if ((c = responses->GetCurrent()) != NULL) {
     do {
-      if (*(c->GetTime()) == *(wp->GetTime())) {
+      if (*(responses->GetCurrent()->GetTime()) == *(wp->GetTime())) {
 	return false;
       }
     } while (responses->Next());
@@ -70,7 +69,7 @@ WallPost* WallPost::RemoveResponseByTime(std::string time){
   responses->GoToHead();
   if ((c = responses->GetCurrent()) != NULL) {
     do {
-      if (*(c->GetTime()) == time) {
+      if (*(responses->GetCurrent()->GetTime()) == time) {
 	DLinkedListNode<WallPost>* n = responses->RemoveCurrent();
 	WallPost* wp = n->GetValue();
 	n->SetValue(NULL);
